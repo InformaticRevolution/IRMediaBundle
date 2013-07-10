@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services 
+                               http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="ir_media.manager.media.class">IR\Bundle\MediaBundle\Doctrine\MediaManager</parameter>
+    </parameters>
+
+    <services>        
+        <service id="ir_media.entity_manager" alias="doctrine.orm.default_entity_manager" public="false" />
+        
+        <service id="ir_media.manager.media" class="%ir_media.manager.media.class%">
+            <argument type="service" id="ir_media.entity_manager" />
+            <argument>%ir_media.model.media.class%</argument>
+        </service>      
+    </services>
+
+</container>

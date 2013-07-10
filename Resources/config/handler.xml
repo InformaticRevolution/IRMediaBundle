@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services 
+                               http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="ir_media.handler.file.class">IR\Bundle\MediaBundle\Handler\FileHandler</parameter>
+        <parameter key="ir_media.handler.video.class">IR\Bundle\MediaBundle\Handler\VideoHandler</parameter>
+        <parameter key="ir_media.handler.image.class">IR\Bundle\MediaBundle\Handler\ImageHandler</parameter>
+    </parameters>
+
+    <services>        
+        <service id="ir_media.handler.base" abstract="true" public="false" >
+            <argument type="service" id="ir_media.filesystem.local" />
+            <argument type="service" id="ir_media.util.path_generator" />
+        </service>     
+    
+        <service id="ir_media.handler.file" class="%ir_media.handler.file.class%" parent="ir_media.handler.base" public="false" >
+            <tag name="ir_media.handler" alias="file" />
+        </service> 
+        
+        <service id="ir_media.handler.image" class="%ir_media.handler.image.class%" parent="ir_media.handler.file" public="false">
+            <tag name="ir_media.handler" alias="image" />
+        </service>        
+        
+        <service id="ir_media.handler.video" class="%ir_media.handler.video.class%" parent="ir_media.handler.base" public="false" >
+            <argument type="service" id="ir_media.buzz.browser" />
+            <tag name="ir_media.handler" alias="video" />
+        </service>   
+        
+        <service id="ir_media.buzz.browser" class="Buzz\Browser" public="false" />
+    </services>
+
+</container>
